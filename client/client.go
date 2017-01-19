@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+
 	"github.com/pagarme/teleport/config"
 	// "mime/multipart"
 	"net/http"
@@ -44,11 +45,16 @@ func (c *Client) SendRequest(path string, obj interface{}) error {
 	data := new(bytes.Buffer)
 	json.NewEncoder(data).Encode(obj)
 
-	res, err := http.Post(
-		c.urlForRequest(path),
-		"application/json",
-		data,
-	)
+	client := &http.Client{}
+	url := c.urlForRequest(path)
+	req, err := http.NewRequest("POST", url, data)
+	if err != nil {
+		return err
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+	req.SetBasicAuth(c.Endpoint.User, c.Endpoint.Password)
+	res, err := client.Do(req)
 
 	if err != nil {
 		return err
