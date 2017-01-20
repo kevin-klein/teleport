@@ -2,13 +2,14 @@ package batcher
 
 import (
 	"fmt"
+	"sort"
+	"time"
+
 	log "github.com/Sirupsen/logrus"
 	"github.com/jmoiron/sqlx"
 	"github.com/pagarme/teleport/action"
 	"github.com/pagarme/teleport/client"
 	"github.com/pagarme/teleport/database"
-	"sort"
-	"time"
 )
 
 type Batcher struct {

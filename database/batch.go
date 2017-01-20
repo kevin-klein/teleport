@@ -6,14 +6,21 @@ import (
 	"encoding/base64"
 	"encoding/gob"
 	"fmt"
-	"github.com/jmoiron/sqlx"
-	"github.com/pagarme/teleport/action"
 	"io/ioutil"
 	"math/rand"
 	"os"
 	"strings"
 	"time"
+
+	log "github.com/Sirupsen/logrus"
+
+	"github.com/jmoiron/sqlx"
+	"github.com/pagarme/teleport/action"
 )
+
+func init() {
+	gob.Register([]interface{}{})
+}
 
 type Batch struct {
 	Id                    string  `db:"id" json:"id"`
@@ -139,11 +146,8 @@ func (b *Batch) GetData() (*string, error) {
 
 		content := string(data)
 		return &content, nil
-	} else {
-		return b.Data, nil
 	}
-
-	return nil, nil
+	return b.Data, nil
 }
 
 func (b *Batch) PurgeData() error {
@@ -224,7 +228,8 @@ func (b *Batch) dataForActions(actions []action.Action) (string, error) {
 		err := encoder.Encode(&act)
 
 		if err != nil {
-			return "", err
+			panic(err)
+			// return "", err
 		}
 
 		encodedData := base64.StdEncoding.EncodeToString(buf.Bytes())
@@ -243,6 +248,7 @@ func (b *Batch) dataForActions(actions []action.Action) (string, error) {
 }
 
 func (b *Batch) SetActions(actions []action.Action) error {
+	log.Infof("SetActions: %#v", actions)
 	data, err := b.dataForActions(actions)
 
 	if err != nil {
@@ -269,6 +275,10 @@ func (b *Batch) ActionFromData(data string) (action.Action, error) {
 	decoder := gob.NewDecoder(&buf)
 	var action action.Action
 	err = decoder.Decode(&action)
+
+	if err != nil {
+		panic(err)
+	}
 
 	return action, nil
 }

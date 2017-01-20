@@ -2,6 +2,7 @@ package database
 
 import (
 	"encoding/json"
+
 	"github.com/pagarme/teleport/action"
 	"github.com/pagarme/teleport/batcher/ddldiff"
 )

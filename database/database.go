@@ -3,6 +3,7 @@ package database
 import (
 	"database/sql"
 	"fmt"
+
 	log "github.com/Sirupsen/logrus"
 
 	"github.com/jmoiron/sqlx"

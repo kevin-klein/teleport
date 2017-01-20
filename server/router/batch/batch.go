@@ -3,13 +3,14 @@ package batch
 import (
 	"encoding/json"
 	"fmt"
+	"io"
+	"net/http"
+
 	log "github.com/Sirupsen/logrus"
 	"github.com/gorilla/mux"
 	"github.com/pagarme/teleport/database"
 	"github.com/pagarme/teleport/server/httputils"
 	"github.com/pagarme/teleport/server/router"
-	"io"
-	"net/http"
 )
 
 type batchRouter struct {
@@ -27,6 +28,7 @@ func New(db *database.Database) *batchRouter {
 func (b *batchRouter) create(w http.ResponseWriter, r *http.Request) error {
 	// Parse batch data from request
 	var newBatch database.Batch
+	println(r.Body)
 	json.NewDecoder(r.Body).Decode(&newBatch)
 
 	// Start transaction

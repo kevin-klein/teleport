@@ -4,9 +4,10 @@ import (
 	"encoding/gob"
 	"encoding/json"
 	"fmt"
-	"github.com/lib/pq"
 	"strings"
 	"time"
+
+	"github.com/lib/pq"
 )
 
 type InsertRow struct {
@@ -68,7 +69,12 @@ func (a *InsertRow) Execute(c *Context) error {
 
 				values = append(values, string(jsonStr))
 			} else {
-				values = append(values, row.Value)
+				switch row.Value.(type) {
+				default:
+					values = append(values, row.Value)
+				case []interface{}:
+					values = append(values, pq.Array(row.Value))
+				}
 			}
 
 			if row.Column.Name == a.PrimaryKeyName {

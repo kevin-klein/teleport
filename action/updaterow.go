@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"strings"
+
+	"github.com/lib/pq"
 )
 
 type UpdateRow struct {
@@ -38,7 +40,12 @@ func (a *UpdateRow) Execute(c *Context) error {
 
 			values = append(values, string(jsonStr))
 		} else {
-			values = append(values, row.Value)
+			switch row.Value.(type) {
+			default:
+				values = append(values, row.Value)
+			case []interface{}:
+				values = append(values, pq.Array(row.Value))
+			}
 		}
 	}
 

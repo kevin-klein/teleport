@@ -2,10 +2,11 @@ package main
 
 import (
 	"flag"
-	log "github.com/Sirupsen/logrus"
-	"github.com/evalphobia/logrus_sentry"
 	"os"
 	"time"
+
+	log "github.com/Sirupsen/logrus"
+	"github.com/evalphobia/logrus_sentry"
 
 	"github.com/pagarme/teleport/applier"
 	"github.com/pagarme/teleport/batcher"

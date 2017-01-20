@@ -45,6 +45,8 @@ func (c *Client) SendRequest(path string, obj interface{}) error {
 	data := new(bytes.Buffer)
 	json.NewEncoder(data).Encode(obj)
 
+	println(data)
+
 	client := &http.Client{}
 	url := c.urlForRequest(path)
 	req, err := http.NewRequest("POST", url, data)

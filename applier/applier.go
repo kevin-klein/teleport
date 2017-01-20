@@ -1,11 +1,12 @@
 package applier
 
 import (
+	"io"
+	"time"
+
 	log "github.com/Sirupsen/logrus"
 	"github.com/pagarme/teleport/action"
 	"github.com/pagarme/teleport/database"
-	"io"
-	"time"
 )
 
 type Applier struct {
