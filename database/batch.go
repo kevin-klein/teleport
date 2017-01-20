@@ -12,8 +12,6 @@ import (
 	"strings"
 	"time"
 
-	log "github.com/Sirupsen/logrus"
-
 	"github.com/jmoiron/sqlx"
 	"github.com/pagarme/teleport/action"
 )
@@ -248,7 +246,6 @@ func (b *Batch) dataForActions(actions []action.Action) (string, error) {
 }
 
 func (b *Batch) SetActions(actions []action.Action) error {
-	log.Infof("SetActions: %#v", actions)
 	data, err := b.dataForActions(actions)
 
 	if err != nil {

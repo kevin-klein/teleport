@@ -28,7 +28,6 @@ func New(db *database.Database) *batchRouter {
 func (b *batchRouter) create(w http.ResponseWriter, r *http.Request) error {
 	// Parse batch data from request
 	var newBatch database.Batch
-	println(r.Body)
 	json.NewDecoder(r.Body).Decode(&newBatch)
 
 	// Start transaction
